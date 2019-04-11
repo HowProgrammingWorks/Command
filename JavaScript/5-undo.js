@@ -60,7 +60,7 @@ class Bank {
   undo(count) {
     for (let i = 0; i < count; i++) {
       const command = this.commands.pop();
-      const operation = command.amount < 0 ? 'Withdraw' : 'Income';
+      const { operation } = command;
       const { undo } = operations[operation];
       undo(command);
     }
