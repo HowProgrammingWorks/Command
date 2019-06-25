@@ -38,6 +38,7 @@ class Bank {
   constructor() {
     this.commands = [];
   }
+
   operation(account, amount) {
     const operation = amount < 0 ? 'Withdraw' : 'Income';
     const execute = operations[operation];
@@ -55,6 +56,7 @@ class Bank {
     this.commands.push(command);
     execute(command);
   }
+
   showOperations() {
     console.table(this.commands);
   }

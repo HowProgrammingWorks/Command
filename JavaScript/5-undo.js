@@ -14,6 +14,7 @@ class BankAccount {
     this.balance = 0;
     BankAccount.collection.set(name, this);
   }
+
   static find(name) {
     return BankAccount.collection.get(name);
   }
@@ -48,6 +49,7 @@ class Bank {
   constructor() {
     this.commands = [];
   }
+
   operation(account, amount) {
     const operation = amount < 0 ? 'Withdraw' : 'Income';
     const { execute } = operations[operation];
@@ -57,6 +59,7 @@ class Bank {
     this.commands.push(command);
     execute(command);
   }
+
   undo(count) {
     for (let i = 0; i < count; i++) {
       const command = this.commands.pop();
@@ -65,6 +68,7 @@ class Bank {
       undo(command);
     }
   }
+
   showOperations() {
     console.table(this.commands);
   }

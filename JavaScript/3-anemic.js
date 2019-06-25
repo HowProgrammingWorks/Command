@@ -19,6 +19,7 @@ class Bank {
   constructor() {
     this.commands = [];
   }
+
   operation(account, amount) {
     const operation = amount < 0 ? 'Withdraw' : 'Income';
     const command = new AccountCommand(
@@ -27,6 +28,7 @@ class Bank {
     this.commands.push(command);
     account.balance += amount;
   }
+
   showOperations() {
     console.table(this.commands);
   }
