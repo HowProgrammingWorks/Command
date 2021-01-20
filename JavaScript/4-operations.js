@@ -19,15 +19,15 @@ class BankAccount {
 BankAccount.collection = new Map();
 
 const operations = {
-  Withdraw: command => {
+  Withdraw: (command) => {
     const account = BankAccount.collection.get(command.account);
     account.balance -= command.amount;
   },
-  Income: command => {
+  Income: (command) => {
     const account = BankAccount.collection.get(command.account);
     account.balance += command.amount;
   },
-  Allowed: command => {
+  Allowed: (command) => {
     if (command.operation === 'Income') return true;
     const account = BankAccount.collection.get(command.account);
     return account.balance >= command.amount;

@@ -24,21 +24,21 @@ BankAccount.collection = new Map();
 
 const operations = {
   Withdraw: {
-    execute: command => {
+    execute: (command) => {
       const account = BankAccount.find(command.account);
       account.balance -= command.amount;
     },
-    undo: command => {
+    undo: (command) => {
       const account = BankAccount.find(command.account);
       account.balance += command.amount;
     },
   },
   Income: {
-    execute: command => {
+    execute: (command) => {
       const account = BankAccount.find(command.account);
       account.balance += command.amount;
     },
-    undo: command => {
+    undo: (command) => {
       const account = BankAccount.find(command.account);
       account.balance -= command.amount;
     },
