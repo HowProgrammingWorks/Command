@@ -23,14 +23,16 @@ class Income extends AccountCommand {
   }
 }
 
-class BankAccount { // Receiver or Target
+class BankAccount {
+  // Receiver or Target
   constructor(name) {
     this.name = name;
     this.balance = 0;
   }
 }
 
-class Bank { // Invoker
+class Bank {
+  // Invoker
   constructor() {
     this.commands = [];
   }
@@ -48,7 +50,7 @@ class Bank { // Invoker
       output.push({
         operation: command.constructor.name,
         account: command.account.name,
-        amount: command.amount
+        amount: command.amount,
       });
     }
     console.table(output);

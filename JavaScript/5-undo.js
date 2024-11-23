@@ -54,7 +54,9 @@ class Bank {
     const operation = amount < 0 ? 'Withdraw' : 'Income';
     const { execute } = operations[operation];
     const command = new AccountCommand(
-      operation, account.name, Math.abs(amount)
+      operation,
+      account.name,
+      Math.abs(amount),
     );
     this.commands.push(command);
     execute(command);

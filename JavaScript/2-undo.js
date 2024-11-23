@@ -67,7 +67,7 @@ class Bank {
       output.push({
         operation: command.constructor.name,
         account: command.account.name,
-        amount: command.amount
+        amount: command.amount,
       });
     }
     console.table(output);

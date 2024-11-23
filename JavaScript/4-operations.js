@@ -43,15 +43,20 @@ class Bank {
     const operation = amount < 0 ? 'Withdraw' : 'Income';
     const execute = operations[operation];
     const command = new AccountCommand(
-      operation, account.name, Math.abs(amount)
+      operation,
+      account.name,
+      Math.abs(amount),
     );
-    const allowed = operations.Allowed(command);
+    const check = operations.Allowed;
+    const allowed = check(command);
     if (!allowed) {
       const target = BankAccount.collection.get(command.account);
-      throw new Error(
-        'Command is not allowed:\n' + JSON.stringify(command) +
-        '\non ' + JSON.stringify(target)
-      );
+      const msg = [
+        'Command is not allowed',
+        'do ' + JSON.stringify(command),
+        'on ' + JSON.stringify(target),
+      ];
+      throw new Error(msg.join('\n'));
     }
     this.commands.push(command);
     execute(command);
@@ -70,7 +75,7 @@ bank.operation(account1, 1000);
 bank.operation(account1, -50);
 const account2 = new BankAccount('Antoninus Pius');
 bank.operation(account2, 500);
-bank.operation(account2, -100);
+bank.operation(account2, -10000);
 bank.operation(account2, 150);
 bank.showOperations();
 console.table([account1, account2]);
