@@ -9,21 +9,21 @@ class AccountCommand {
 }
 
 class BankAccount {
+  static accounts = new Map();
+
   constructor(name) {
     this.name = name;
     this.balance = 0;
-    BankAccount.collection.set(name, this);
+    BankAccount.accounts.set(name, this);
   }
 
   static find(name) {
-    return BankAccount.collection.get(name);
+    return BankAccount.accounts.get(name);
   }
 }
 
-BankAccount.collection = new Map();
-
-const operations = {
-  Withdraw: {
+const OPERATIONS = {
+  withdraw: {
     execute: (command) => {
       const account = BankAccount.find(command.account);
       account.balance -= command.amount;
@@ -33,7 +33,7 @@ const operations = {
       account.balance += command.amount;
     },
   },
-  Income: {
+  income: {
     execute: (command) => {
       const account = BankAccount.find(command.account);
       account.balance += command.amount;
@@ -51,8 +51,8 @@ class Bank {
   }
 
   operation(account, amount) {
-    const operation = amount < 0 ? 'Withdraw' : 'Income';
-    const { execute } = operations[operation];
+    const operation = amount < 0 ? 'withdraw' : 'income';
+    const { execute } = OPERATIONS[operation];
     const command = new AccountCommand(
       operation,
       account.name,
@@ -66,7 +66,7 @@ class Bank {
     for (let i = 0; i < count; i++) {
       const command = this.commands.pop();
       const { operation } = command;
-      const { undo } = operations[operation];
+      const { undo } = OPERATIONS[operation];
       undo(command);
     }
   }

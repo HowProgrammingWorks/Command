@@ -9,27 +9,27 @@ class AccountCommand {
 }
 
 class BankAccount {
+  static accounts = new Map();
+
   constructor(name) {
     this.name = name;
     this.balance = 0;
-    BankAccount.collection.set(name, this);
+    BankAccount.accounts.set(name, this);
   }
 }
 
-BankAccount.collection = new Map();
-
-const operations = {
-  Withdraw: (command) => {
-    const account = BankAccount.collection.get(command.account);
+const OPERATIONS = {
+  withdraw: (command) => {
+    const account = BankAccount.accounts.get(command.account);
     account.balance -= command.amount;
   },
-  Income: (command) => {
-    const account = BankAccount.collection.get(command.account);
+  income: (command) => {
+    const account = BankAccount.accounts.get(command.account);
     account.balance += command.amount;
   },
-  Allowed: (command) => {
-    if (command.operation === 'Income') return true;
-    const account = BankAccount.collection.get(command.account);
+  allowed: (command) => {
+    if (command.operation === 'income') return true;
+    const account = BankAccount.accounts.get(command.account);
     return account.balance >= command.amount;
   },
 };
@@ -40,17 +40,17 @@ class Bank {
   }
 
   operation(account, amount) {
-    const operation = amount < 0 ? 'Withdraw' : 'Income';
-    const execute = operations[operation];
+    const operation = amount < 0 ? 'withdraw' : 'income';
+    const execute = OPERATIONS[operation];
     const command = new AccountCommand(
       operation,
       account.name,
       Math.abs(amount),
     );
-    const check = operations.Allowed;
+    const check = OPERATIONS.allowed;
     const allowed = check(command);
     if (!allowed) {
-      const target = BankAccount.collection.get(command.account);
+      const target = BankAccount.accounts.get(command.account);
       const msg = [
         'Command is not allowed',
         'do ' + JSON.stringify(command),
@@ -75,7 +75,7 @@ bank.operation(account1, 1000);
 bank.operation(account1, -50);
 const account2 = new BankAccount('Antoninus Pius');
 bank.operation(account2, 500);
-bank.operation(account2, -10000);
+bank.operation(account2, -10000); // -10000
 bank.operation(account2, 150);
 bank.showOperations();
 console.table([account1, account2]);
