@@ -21,7 +21,7 @@ class Bank {
   }
 
   operation(account, amount) {
-    const operation = amount < 0 ? 'Withdraw' : 'Income';
+    const operation = amount < 0 ? 'withdraw' : 'income';
     const command = new AccountCommand(
       operation,
       account.name,

@@ -75,7 +75,7 @@ bank.operation(account1, 1000);
 bank.operation(account1, -50);
 const account2 = new BankAccount('Antoninus Pius');
 bank.operation(account2, 500);
-bank.operation(account2, -10000); // -10000
+bank.operation(account2, -100); // -10000
 bank.operation(account2, 150);
 bank.showOperations();
 console.table([account1, account2]);

@@ -65,7 +65,7 @@ class Bank {
     const output = [];
     for (const command of this.commands) {
       output.push({
-        operation: command.constructor.name,
+        operation: command.constructor.name.toLowerCase(),
         account: command.account.name,
         amount: command.amount,
       });
