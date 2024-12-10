@@ -11,59 +11,53 @@ const addAccount = (name: string): Account => {
   return account;
 };
 
+type OperationType = 'withdraw' | 'income';
+
 interface Command {
-  operation: string;
+  operation: OperationType;
   account: string;
   amount: number;
 }
 
-type OperationType = 'withdraw' | 'income';
+interface Operation {
+  execute: (command: Command) => void;
+  undo: (command: Command) => void;
+};
 
-const OPERATIONS: Record<OperationType, { 
-  execute: (command: Command) => void; 
-  undo: (command: Command) => void; 
-}> = {
+type Operations = Record<OperationType, Operation>;
+
+const OPERATIONS: Operations = {
   withdraw: {
     execute: (command: Command): void => {
       const account = accounts.get(command.account);
-      if (account) {
-        account.balance -= command.amount;
-      }
+      if (account) account.balance -= command.amount;
     },
     undo: (command: Command): void => {
       const account = accounts.get(command.account);
-      if (account) {
-        account.balance += command.amount;
-      }
+      if (account) account.balance += command.amount;
     },
   },
   income: {
     execute: (command: Command): void => {
       const account = accounts.get(command.account);
-      if (account) {
-        account.balance += command.amount;
-      }
+      if (account) account.balance += command.amount;
     },
     undo: (command: Command): void => {
       const account = accounts.get(command.account);
-      if (account) {
-        account.balance -= command.amount;
-      }
+      if (account) account.balance -= command.amount;
     },
   },
 };
 
 class Bank {
-  private commands: Command[] = [];
+  private commands: Array<Command> = [];
 
-  operation(account: Account, amount: number): void {
-    const operation = amount < 0 ? 'withdraw' : 'income';
+  operation(account: Account, value: number): void {
+    const operation = value < 0 ? 'withdraw' : 'income';
     const { execute } = OPERATIONS[operation];
-    const command: Command = {
-      operation,
-      account: account.name,
-      amount: Math.abs(amount),
-    };
+    const amount = Math.abs(value);
+    const { name } = account;
+    const command: Command = { operation, account: name, amount };
     this.commands.push(command);
     execute(command);
   }

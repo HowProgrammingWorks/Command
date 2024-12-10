@@ -54,9 +54,9 @@ class BankAccount {
 class Bank {
   private commands: AccountCommand[] = [];
 
-  operation(account: BankAccount, amount: number): void {
-    const Command = amount < 0 ? Withdraw : Income;
-    const command = new Command(account, Math.abs(amount));
+  operation(account: BankAccount, value: number): void {
+    const Command = value < 0 ? Withdraw : Income;
+    const command = new Command(account, Math.abs(value));
     command.execute();
     this.commands.push(command);
   }
