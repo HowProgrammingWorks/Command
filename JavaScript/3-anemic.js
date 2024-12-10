@@ -20,13 +20,11 @@ class Bank {
     this.commands = [];
   }
 
-  operation(account, amount) {
-    const operation = amount < 0 ? 'withdraw' : 'income';
-    const command = new AccountCommand(
-      operation,
-      account.name,
-      Math.abs(amount),
-    );
+  operation(account, value) {
+    const operation = value < 0 ? 'withdraw' : 'income';
+    const amount = Math.abs(value);
+    const { name } = account;
+    const command = new AccountCommand(operation, name, amount);
     this.commands.push(command);
     account.balance += amount;
   }
